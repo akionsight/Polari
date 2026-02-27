@@ -8,11 +8,11 @@ use chrono::Utc;
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct SupplyChainData {
     pub item_id: String,
-    pub event_type: String,  
+    pub event_type: String,
     pub location: String,
     pub timestamp: String,
     pub owner: String,
-    pub document_hash: String,  
+    pub document_hash: String,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -26,7 +26,6 @@ pub struct Block {
 }
 
 impl Block {
-
     pub fn new(index: u64, data: SupplyChainData, previous_hash: String) -> Self {
         let timestamp = Utc::now().to_rfc3339();
         let mut block = Block {
@@ -48,8 +47,9 @@ impl Block {
             proof_of_work: self.proof_of_work,
             previous_hash: self.previous_hash.clone(),
             data: self.data.clone(),
-        }).unwrap();
-        
+        })
+        .unwrap();
+
         let mut hasher = Sha256::new();
         hasher.update(input.as_bytes());
         hex::encode(hasher.finalize())
@@ -64,7 +64,7 @@ impl Block {
     }
 
     pub fn is_valid_block(&self, previous_block: &Block, difficulty: usize) -> bool {
-        // 1. Index should be previous index + 1
+        // 1. Index must be previous + 1
         if self.index != previous_block.index + 1 {
             return false;
         }
@@ -75,12 +75,11 @@ impl Block {
         }
 
         // 3. Hash must be correct for this block's content
-        let recalculated_hash = self.calculate_hash();
-        if self.hash != recalculated_hash {
+        if self.hash != self.calculate_hash() {
             return false;
         }
 
-        // 4. Hash must satisfy difficulty (proof-of-work)
+        // 4. Hash must satisfy proof-of-work difficulty
         let target = "0".repeat(difficulty);
         if !self.hash.starts_with(&target) {
             return false;
@@ -88,10 +87,9 @@ impl Block {
 
         true
     }
-
 }
 
-// Helper struct for hashing (excludes hash field)
+// Helper struct for hashing (excludes hash field to avoid circular dependency)
 #[derive(Serialize)]
 struct BlockForHashing {
     index: u64,
@@ -113,7 +111,7 @@ impl fmt::Display for Block {
         } else {
             &self.previous_hash
         };
-        
+
         write!(f, "Block #{} [{}]\n", self.index, self.data.item_id)?;
         write!(f, "  Event: {}\n", self.data.event_type)?;
         write!(f, "  Location: {}\n", self.data.location)?;

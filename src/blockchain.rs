@@ -1,3 +1,4 @@
+// src/blockchain.rs
 use crate::block::{Block, SupplyChainData};
 use std::fmt;
 use redis::{Client, Commands};
@@ -13,20 +14,18 @@ pub struct Blockchain {
 
 impl Blockchain {
     pub fn new(difficulty: usize) -> Self {
-        // Connect to local Redis, adjust URL if needed
         let client = Client::open("redis://127.0.0.1/").expect("failed to connect to Redis");
         let mut con = client.get_connection().expect("failed to get Redis connection");
 
         let mut chain: Vec<Block> = Vec::new();
 
-        // Get last index (if any)
         let last_index: Option<u64> = redis::cmd("GET")
             .arg("block:last_index")
             .query(&mut con)
             .ok();
 
         if let Some(last) = last_index {
-            // Load all blocks from 0..=last
+            // Load all blocks from Redis
             for i in 0..=last {
                 let key = format!("block:{}", i);
                 let data: Vec<u8> = con.get(key).expect("failed to get block");
@@ -34,7 +33,7 @@ impl Blockchain {
                 chain.push(block);
             }
         } else {
-            // No chain in Redis: create and persist genesis
+            // No existing chain: create and persist genesis block
             let genesis_data = SupplyChainData {
                 item_id: "GENESIS".to_string(),
                 event_type: "genesis".to_string(),
@@ -64,7 +63,8 @@ impl Blockchain {
         }
     }
 
-    fn redis_conn(&self) -> redis::Connection {
+    // FIX #3 (partial): Made pub so p2p.rs can persist peer blocks to Redis
+    pub fn redis_conn(&self) -> redis::Connection {
         self.redis_client
             .get_connection()
             .expect("failed to get Redis connection")
@@ -97,16 +97,6 @@ impl Blockchain {
 
         block.mine_block(self.difficulty);
 
-        // Optional validation (only if you have is_valid_block implemented)
-        // if !block.is_valid_block(previous_block, self.difficulty) {
-        //     eprintln!("Refused to add invalid block");
-        //     self.pending_data.clear();
-        //     return;
-        // }
-
-        // Append to in-memory chain
-        self.chain.push(block.clone());
-
         // Persist to Redis
         let mut con = self.redis_conn();
         let key = format!("block:{}", block.index);
@@ -114,6 +104,7 @@ impl Blockchain {
         let _: () = con.set(key, value).unwrap();
         let _: () = con.set("block:last_index", block.index).unwrap();
 
+        self.chain.push(block);
         self.pending_data.clear();
     }
 
@@ -121,22 +112,22 @@ impl Blockchain {
         self.chain.last().unwrap()
     }
 
-pub fn is_chain_valid(&self) -> bool {
-    if self.chain.len() <= 1 {
-        return true;
-    }
-
-    for i in 1..self.chain.len() {
-        let previous = &self.chain[i - 1];
-        let current = &self.chain[i];
-
-        if !current.is_valid_block(previous, self.difficulty) {
-            return false;
+    pub fn is_chain_valid(&self) -> bool {
+        if self.chain.len() <= 1 {
+            return true;
         }
-    }
 
-    true
-}
+        for i in 1..self.chain.len() {
+            let previous = &self.chain[i - 1];
+            let current = &self.chain[i];
+
+            if !current.is_valid_block(previous, self.difficulty) {
+                return false;
+            }
+        }
+
+        true
+    }
 
     pub fn get_item_trace(&self, item_id: &str) -> Vec<&Block> {
         self.chain

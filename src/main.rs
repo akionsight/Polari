@@ -1,14 +1,23 @@
 mod block;
 mod blockchain;
+mod net_message;
+mod p2p;
 
-use blockchain::Blockchain;
+use p2p::P2PNode;
 use block::SupplyChainData;
+use log::info;
 use chrono::Utc;
 
-fn main() {
-    let mut bc = Blockchain::new(2); // loads from Redis or creates genesis
+#[tokio::main]
 
-    bc.add_data(SupplyChainData {
+async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    pretty_env_logger::init();
+
+    let mut node = P2PNode::new(2).await?;
+    node.subscribe()?;
+
+    // Add supply chain data
+    node.blockchain.add_data(SupplyChainData {
         item_id: "ECID123".to_string(),
         event_type: "manufacture".to_string(),
         location: "Factory, Gharroli, Delhi".to_string(),
@@ -16,14 +25,17 @@ fn main() {
         owner: "SupplierA".to_string(),
         document_hash: "sha256_cert_abc123".to_string(),
     });
-    bc.mine_pending_data("Miner1");
 
-    // Tamper with the chain
-// bc.chain[1].data.location = "Hacked".to_string();  // uncomment to test
+    // Mine pending data
+    node.blockchain.mine_pending_data("Miner1");
 
-    println!("Chain valid: {}", bc.is_chain_valid());
+    // FIX #1: Clone last block first to avoid simultaneous mut + immutable borrow
+    let last_block = node.blockchain.last_block().clone();
+    node.broadcast_block(last_block)?;
 
-        // Use get_item_trace so it’s not dead code
-    let trace = bc.get_item_trace("ECID123");
-    println!("Trace length for ECID123: {}", trace.len());
+    info!("✅ Chain valid: {}", node.blockchain.is_chain_valid());
+    info!("📊 Chain length: {}", node.blockchain.chain.len());
+
+    node.run().await?;
+    Ok(())
 }
