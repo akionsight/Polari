@@ -29,7 +29,9 @@ body{
     transition:transform 1.15s cubic-bezier(.8,0,.2,1);
 }
 
-.big{ width:320px; }
+.big{ 
+    width:320px; 
+}
 
 .small{
     width:80px;
@@ -80,9 +82,7 @@ body{
     );
 
     z-index:1;
-    /* Smoother, more natural easing curve */
     transition: transform 1.4s cubic-bezier(0.76, 0, 0.24, 1);
-    /* Hardware acceleration for smoother rendering */
     will-change: transform;
     backface-visibility: hidden;
     -webkit-font-smoothing: antialiased;
@@ -131,7 +131,7 @@ input{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background: #ffffff;  /* Change this to any color you want */
+    background: #ffffff;  
     color: #000;
 }
 
@@ -153,10 +153,10 @@ button:hover{
 }
 
 
-/* ================= TRACK PAGE ================= */
+/*TRACK PAGE*/
 
 .track-page{
-    padding:80px 60px 10px 60px;
+    padding:80px 120px 10px 120px;
     background:var(--bg-dark);
     min-height:100vh;
 }
@@ -170,7 +170,7 @@ button:hover{
 .record{
     background:#e6e6e6;
     border-radius:60px;
-    padding:30px 60px;
+    padding:30px 10px;
     display:grid;
     grid-template-columns:repeat(6,1fr);
     gap:50px;
@@ -182,10 +182,17 @@ button:hover{
 }
 
 .icon{
-    width:60px;
-    height:60px;
-    border-radius:20px;
-    margin:0 auto 14px;
+    width:48px;
+    height:48px;
+    margin:0 auto 8px;
+    transition: transform .18s ease, filter .18s ease;
+}
+
+/* hover effect */
+.icon:hover{
+    transform: translateY(-6px) scale(1.06);
+    filter: drop-shadow(0 10px 14px rgba(0,0,0,.35))
+            drop-shadow(0 0 6px rgba(89,179,201,.7));
 }
 
 .label{
@@ -203,7 +210,7 @@ button:hover{
 }
 
 
-/* ================= HOME BUTTON ================= */
+/*HOME BUTTON*/
 
 .home-container{
     display:flex;
@@ -259,7 +266,7 @@ button:hover{
     opacity: 0.8;
 }
 
-/* ================= ADD BUTTON (Bottom Right) ================= */
+/* ADD BUTTON */
 
 .add-btn{
     position: fixed;
@@ -295,7 +302,7 @@ button:hover{
 .add-body{
     background:var(--bg-dark);
     margin:0;
-    overflow: auto; /* Allow scrolling if needed */
+    overflow: auto; 
 }
 
 .add-container{
@@ -322,7 +329,6 @@ button:hover{
     padding-bottom: 3%;
 }
 
-/* Override the absolute positioning for add form inputs */
 #addForm input{
     position: static;
     transform: none;
@@ -350,9 +356,7 @@ button:hover{
     box-shadow: 0 4px 12px rgba(255, 196, 0, 0.4);
 }
 
-
-/* ================= INVERTED ARROW FOR ADD PAGE ================= */
-
+/* Arrow for Add Page*/
 .arrow-inverted{
     position: fixed;
     left: -800px;
@@ -370,7 +374,6 @@ button:hover{
     z-index: 0;
 }
 
-/* Adjust constellation for add page */
 .constellation-add{
     position: fixed;
     right: 20px;
@@ -382,7 +385,6 @@ button:hover{
     opacity: 0.6;
 }
 
-/* Update add-container z-index */
 .add-container{
     min-height:100vh;
     display:flex;
@@ -391,7 +393,7 @@ button:hover{
     align-items:center;
     padding: 40px 20px;
     position: relative;
-    z-index: 2; /* Above the arrow */
+    z-index: 2;
 }
 
 .add-container h1{
