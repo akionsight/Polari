@@ -258,3 +258,93 @@ button:hover{
     z-index: 2;
     opacity: 0.8;
 }
+
+/* ================= ADD BUTTON (Bottom Right) ================= */
+
+.add-btn{
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: var(--button-yellow);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    z-index: 10;
+}
+
+.add-btn:hover{
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+.add-btn img{
+    width: 45px;
+    height: 45px;
+    object-fit: contain;
+}
+
+
+/* ADD PAGE */
+
+.add-body{
+    background:var(--bg-dark);
+    margin:0;
+    overflow: auto; /* Allow scrolling if needed */
+}
+
+.add-container{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding: 40px 20px;
+}
+
+.add-container h1{
+    color: var(--turquoise);
+    font-size: 32px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+#addForm{
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+    width:320px;
+}
+
+/* Override the absolute positioning for add form inputs */
+#addForm input{
+    position: static;
+    transform: none;
+    padding:14px;
+    font-size:16px;
+    border-radius:6px;
+    border:none;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#addForm button{
+    padding:14px;
+    background:var(--button-yellow);
+    border:none;
+    border-radius:6px;
+    cursor:pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+#addForm button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 196, 0, 0.4);
+}
