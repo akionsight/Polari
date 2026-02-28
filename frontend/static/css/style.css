@@ -243,3 +243,16 @@ button:hover{
     height:100%;
     object-fit:contain;
 }
+
+/* CONSTELLATION IMAGE */
+
+.constellation{
+    position: fixed;
+    right: 90px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 330px;
+    height: auto;
+    z-index: 2;
+    opacity: 0.8;
+}
