@@ -18,6 +18,8 @@ form.addEventListener("submit", e => {
   }
 });
     console.log(data);
+    alert("Item added successfully!");
+    form.reset();
 });
 
 // const form = document.getElementById("addForm");
@@ -35,6 +37,4 @@ form.addEventListener("submit", e => {
 //     console.log(data);
     
 //     // Optional: Show success message and reset form
-//     alert("Item added successfully!");
-//     form.reset();
 // });

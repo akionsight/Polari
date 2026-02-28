@@ -349,3 +349,56 @@ button:hover{
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(255, 196, 0, 0.4);
 }
+
+
+/* ================= INVERTED ARROW FOR ADD PAGE ================= */
+
+.arrow-inverted{
+    position: fixed;
+    left: -800px;
+    top: -10vh;
+    width: 1200px;
+    height: 120vh;
+    background: var(--turquoise);
+    clip-path: polygon(
+        0% 0%,
+        80% 0%,
+        100% 50%,
+        80% 100%,
+        0% 100%
+    );
+    z-index: 0;
+}
+
+/* Adjust constellation for add page */
+.constellation-add{
+    position: fixed;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 300px;
+    height: auto;
+    z-index: 2;
+    opacity: 0.6;
+}
+
+/* Update add-container z-index */
+.add-container{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding: 40px 20px;
+    position: relative;
+    z-index: 2; /* Above the arrow */
+}
+
+.add-container h1{
+    color: #ffffff;
+    font-size: 48px;
+    margin-bottom: 30px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
