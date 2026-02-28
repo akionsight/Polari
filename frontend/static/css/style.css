@@ -63,7 +63,7 @@ body{
 
 .arrow{
     position:fixed;
-    right:-300px;
+    right:-200px;
     top:-10vh;
 
     width:1200px;
@@ -80,26 +80,43 @@ body{
     );
 
     z-index:1;
-    transition:transform 1s cubic-bezier(.7,0,.3,1);
+    /* Smoother, more natural easing curve */
+    transition: transform 1.4s cubic-bezier(0.76, 0, 0.24, 1);
+    /* Hardware acceleration for smoother rendering */
+    will-change: transform;
+    backface-visibility: hidden;
+    -webkit-font-smoothing: antialiased;
 }
 
 .arrow.move{
-    transform:translateX(-130vw);
+    transform: translateX(-130vw) translateZ(0);
 }
 
-/* UI */
+/* LOGO */
 
-.title{
-    font-size:42px;
-    color:white;
-    margin-bottom:30px;
+.logo{
+    position:absolute;
+    top:40px;
+    left:60px;
+    width:180px;
+    height:auto;
+    z-index:2;
+}
+
+/* INPUT AREA */
+
+.track-box{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
     position:relative;
     z-index:2;
 }
 
 .track-box{
     display:flex;
-    gap:12px;
+    flex-direction:column;
+    gap:16px;
     position:relative;
     z-index:2;
 }
@@ -110,6 +127,10 @@ input{
     font-size:16px;
     border:none;
     border-radius:6px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 button{
@@ -119,25 +140,30 @@ button{
     border:none;
     border-radius:6px;
     background:var(--button-yellow);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    margin-top: 120px;
+    align-self: center;
 }
+
+button:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(255, 196, 0, 0.4);
+}
+
 
 /* ================= TRACK PAGE ================= */
 
 .track-page{
-    padding:80px 60px;
+    padding:80px 60px 10px 60px;
     background:var(--bg-dark);
     min-height:100vh;
 }
-
-/* LIST */
 
 .records{
     display:flex;
     flex-direction:column;
     gap:20px;
 }
-
-/* CARD */
 
 .record{
     background:#e6e6e6;
@@ -148,14 +174,10 @@ button{
     gap:50px;
 }
 
-/* FIELD BLOCK */
-
 .field-block{
     text-align:center;
     color:#222;
 }
-
-/* ICON */
 
 .icon{
     width:60px;
@@ -164,28 +186,20 @@ button{
     margin:0 auto 14px;
 }
 
-/* LABEL */
-
 .label{
     font-size:13px;
     color:#4b4b4b;
 }
-
-/* VALUE */
 
 .value{
     font-weight:600;
     font-size:16px;
 }
 
-.track-page{
-    padding:80px 60px 10px 60px;
-    min-height:100vh;
-}
-
 .track-body{
     overflow:auto;
 }
+
 
 /* ================= HOME BUTTON ================= */
 
