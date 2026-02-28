@@ -130,138 +130,169 @@
 # # #         data_str += char
 
 
-import redis
-import json
-from dataclasses import dataclass
-from typing import List
+# import redis
+# import json
+# from dataclasses import dataclass
+# from typing import List
 
 
-@dataclass
-class SupplyChainData:
-    item_id: str
-    event_type: str
-    location: str
-    timestamp: str
-    owner: str
-    document_hash: str
+# @dataclass
+# class SupplyChainData:
+#     item_id: str
+#     event_type: str
+#     location: str
+#     timestamp: str
+#     owner: str
+#     document_hash: str
 
 
-@dataclass
-class Block:
-    index: int
-    timestamp: str
-    previous_hash: str
-    hash: str
-    data: SupplyChainData
+# @dataclass
+# class Block:
+#     index: int
+#     timestamp: str
+#     previous_hash: str
+#     hash: str
+#     data: SupplyChainData
 
 
-def connect_redis(host: str = "127.0.0.1", port: int = 6379, db: int = 0) -> redis.Redis:
-    return redis.Redis(host=host, port=port, db=db)
+# def connect_redis(host: str = "127.0.0.1", port: int = 6379, db: int = 0) -> redis.Redis:
+#     return redis.Redis(host=host, port=port, db=db)
 
 
-def decode_block(raw: bytes) -> Block:
-    """Decode a JSON-encoded block from Redis into a Block object."""
-    obj = json.loads(raw.decode("utf-8"))
-    data = obj["data"]
-    sc_data = SupplyChainData(
-        item_id=data["item_id"],
-        event_type=data["event_type"],
-        location=data["location"],
-        timestamp=data["timestamp"],
-        owner=data["owner"],
-        document_hash=data["document_hash"],
-    )
-    return Block(
-        index=obj["index"],
-        timestamp=obj["timestamp"],
-        previous_hash=obj["previous_hash"],
-        hash=obj["hash"],
-        data=sc_data,
-    )
+# def decode_block(raw: bytes) -> Block:
+#     """Decode a JSON-encoded block from Redis into a Block object."""
+#     obj = json.loads(raw.decode("utf-8"))
+#     data = obj["data"]
+#     sc_data = SupplyChainData(
+#         item_id=data["item_id"],
+#         event_type=data["event_type"],
+#         location=data["location"],
+#         timestamp=data["timestamp"],
+#         owner=data["owner"],
+#         document_hash=data["document_hash"],
+#     )
+#     return Block(
+#         index=obj["index"],
+#         timestamp=obj["timestamp"],
+#         previous_hash=obj["previous_hash"],
+#         hash=obj["hash"],
+#         data=sc_data,
+#     )
 
 
-def get_item_events_from_redis(
-    r: redis.Redis,
-    item_id: str,
-    pattern: str = "block:*",
-    count: int = 50,
-) -> List[Block]:
-    """
-    Scan Redis for all block:* keys, decode blocks, and
-    return those whose data.item_id == item_id, sorted by index.
-    """
-    cursor = 0
-    result: List[Block] = []
-
-    while True:
-        cursor, keys = r.scan(cursor=cursor, match=pattern, count=count)
-        for key in keys:
-            raw = r.get(key)
-            if not raw:
-                continue
-
-            try:
-                block = decode_block(raw)
-            except Exception:
-                # Skip malformed entries
-                continue
-
-            if block.data.item_id == item_id:
-                result.append(block)
-
-        if cursor == 0:
-            break
-
-    # Sort by block index
-    result.sort(key=lambda b: b.index)
-    return result
-
-
-if __name__ == "__main__":
-    r = connect_redis()
-
-    item_id = "ECID123"
-    events = get_item_events_from_redis(r, item_id)
-
-    print(f"Found {len(events)} events for item_id={item_id}")
-    for b in events:
-        print(
-            f"Block {b.index}: {b.data.event_type} at {b.data.location} "
-            f"by {b.data.owner} at {b.data.timestamp}"
-        )
-
-
-# def parse_length_prefixed(data: bytes) -> list[str]:
+# def get_item_events_from_redis(
+#     r: redis.Redis,
+#     item_id: str,
+#     pattern: str = "block:*",
+#     count: int = 50,
+# ) -> List[Block]:
 #     """
-#     Parses a binary blob where each field is:
-#       [8-byte little-endian uint64 length][N bytes UTF-8 string]
-#     Non-decodable/header bytes are skipped one byte at a time.
+#     Scan Redis for all block:* keys, decode blocks, and
+#     return those whose data.item_id == item_id, sorted by index.
 #     """
-#     results = []
-#     pos = 0
-#     while pos < len(data):
-#         if pos + 8 > len(data):
-#             break
-#         length = struct.unpack_from("<Q", data, pos)[0]
-#         pos += 8
-#         if 0 < length <= len(data) - pos:
-#             chunk = data[pos : pos + length]
-#             try:
-#                 results.append(chunk.decode("utf-8"))
-#                 pos += length
+#     cursor = 0
+#     result: List[Block] = []
+
+#     while True:
+#         cursor, keys = r.scan(cursor=cursor, match=pattern, count=count)
+#         for key in keys:
+#             raw = r.get(key)
+#             if not raw:
 #                 continue
-#             except UnicodeDecodeError:
-#                 pass
-#         pos -= 7  # Rewind to advance only 1 byte and retry
 
-#     fields = [s for s in results if len(s) > 1]  # Drop single-char header artifacts
-#     result = {
-#     "item_id":       fields[2],
-#     "event_type":    fields[3],
-#     "location":      fields[4],
-#     "timestamp":     fields[5],
-#     "owner":         fields[5],
-#     "document_hash": fields[7],
-#     }
-#     print(fields)
+#             try:
+#                 block = decode_block(raw)
+#             except Exception:
+#                 # Skip malformed entries
+#                 continue
+
+#             if block.data.item_id == item_id:
+#                 result.append(block)
+
+#         if cursor == 0:
+#             break
+
+#     # Sort by block index
+#     result.sort(key=lambda b: b.index)
 #     return result
+
+
+# if __name__ == "__main__":
+#     r = connect_redis()
+
+#     item_id = "ECID123"
+#     events = get_item_events_from_redis(r, item_id)
+
+#     print(f"Found {len(events)} events for item_id={item_id}")
+#     for b in events:
+#         print(
+#             f"Block {b.index}: {b.data.event_type} at {b.data.location} "
+#             f"by {b.data.owner} at {b.data.timestamp}"
+#         )
+
+
+# # def parse_length_prefixed(data: bytes) -> list[str]:
+# #     """
+# #     Parses a binary blob where each field is:
+# #       [8-byte little-endian uint64 length][N bytes UTF-8 string]
+# #     Non-decodable/header bytes are skipped one byte at a time.
+# #     """
+# #     results = []
+# #     pos = 0
+# #     while pos < len(data):
+# #         if pos + 8 > len(data):
+# #             break
+# #         length = struct.unpack_from("<Q", data, pos)[0]
+# #         pos += 8
+# #         if 0 < length <= len(data) - pos:
+# #             chunk = data[pos : pos + length]
+# #             try:
+# #                 results.append(chunk.decode("utf-8"))
+# #                 pos += length
+# #                 continue
+# #             except UnicodeDecodeError:
+# #                 pass
+# #         pos -= 7  # Rewind to advance only 1 byte and retry
+
+# #     fields = [s for s in results if len(s) > 1]  # Drop single-char header artifacts
+# #     result = {
+# #     "item_id":       fields[2],
+# #     "event_type":    fields[3],
+# #     "location":      fields[4],
+# #     "timestamp":     fields[5],
+# #     "owner":         fields[5],
+# #     "document_hash": fields[7],
+# #     }
+# #     print(fields)
+# #     return result
+
+
+import subprocess
+from datetime import datetime, timezone
+import os
+import random
+
+def get_hash():
+    # Equivalent of: TIMESTAMP=$(date -Iseconds -u)
+    timestamp = datetime.now(timezone.utc).isoformat(timespec="seconds")
+
+
+    unix_ts = int(datetime.now(timezone.utc).timestamp())
+    rand_val = random.randint(0, 32767)  # similar range to $RANDOM
+    doc_hash = f"auto_{unix_ts}_{rand_val}"
+
+
+    return doc_hash
+
+import subprocess
+
+
+itemid= input('')
+eventype= input('')
+location= input('')
+owner= input('')
+
+
+subprocess.run(["cargo", "run", "--bin", 
+"polari",  "--", "add", f"{itemid}", f"{eventype}", 
+f"{location}", f"{owner}", f"{get_hash()}"]) 
