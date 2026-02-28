@@ -1,0 +1,55 @@
+body{
+    margin:0;
+    height:200vh;
+    font-family:sans-serif;
+}
+
+/* SCREEN */
+
+#intro{
+    position:fixed;
+    inset:0;
+    background:#1f2b5c;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    overflow:hidden;
+}
+
+/* STAR BASE */
+
+.star{
+    position:absolute;
+    transform-origin:center center;
+    transition:transform 1.15s cubic-bezier(.8,0,.2,1);
+}
+
+/* BIG STAR */
+
+.big{
+    width:320px;
+}
+
+/* SMALL STAR */
+
+.small{
+    width:80px;
+    transform:translate(120px,-120px);
+}
+
+/* ZOOM EFFECT */
+
+.zoom{
+    transform:scale(60);
+}
+
+/* TEXT */
+
+.hint{
+    position:absolute;
+    bottom:60px;
+    color:white;
+    opacity:.85;
+    font-size:14px;
+}
