@@ -1938,6 +1938,7 @@ dependencies = [
  "libp2p",
  "log",
  "pretty_env_logger",
+ "rand",
  "redis",
  "serde",
  "serde_json",

@@ -11,7 +11,7 @@ pub struct SupplyChainData {
     pub event_type: String,
     pub location: String,
     pub timestamp: String,
-    pub owner: String,
+    pub owner: String,  
     pub document_hash: String,
 }
 

@@ -29,7 +29,8 @@ impl Blockchain {
             for i in 0..=last {
                 let key = format!("block:{}", i);
                 let data: Vec<u8> = con.get(key).expect("failed to get block");
-                let block: Block = bincode::deserialize(&data).expect("deserialize block");
+                // let block: Block = bincode::deserialize(&data).expect("deserialize block");
+                let block: Block = serde_json::from_slice(&data).unwrap();
                 chain.push(block);
             }
         } else {
@@ -46,7 +47,8 @@ impl Blockchain {
             genesis_block.mine_block(difficulty);
 
             let key = "block:0";
-            let value = bincode::serialize(&genesis_block).unwrap();
+            // let value = bincode::serialize(&genesis_block).unwrap();
+            let value = serde_json::to_vec(&genesis_block).unwrap();
             let _: () = con.set(key, value).unwrap();
             let _: () = con.set("block:last_index", 0u64).unwrap();
 
@@ -100,7 +102,8 @@ impl Blockchain {
         // Persist to Redis
         let mut con = self.redis_conn();
         let key = format!("block:{}", block.index);
-        let value = bincode::serialize(&block).unwrap();
+        // let value = bincode::serialize(&block).unwrap();
+        let value = serde_json::to_vec(&block).unwrap();
         let _: () = con.set(key, value).unwrap();
         let _: () = con.set("block:last_index", block.index).unwrap();
 
