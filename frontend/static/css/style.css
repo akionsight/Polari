@@ -96,9 +96,9 @@ body{
 
 .logo{
     position:absolute;
-    top:40px;
+    top:42%;
     left:60px;
-    width:180px;
+    width:380px;
     height:auto;
     z-index:2;
 }
@@ -131,6 +131,8 @@ input{
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+    background: #ffffff;  /* Change this to any color you want */
+    color: #000;
 }
 
 button{
