@@ -567,9 +567,6 @@ button:hover{
     white-space:nowrap;
 }
 
-/* ============================================================
-   RESPONSIVE — TABLET  (≤ 1024px)
-   ============================================================ */
 @media (max-width:1024px){
     .logo{ width:280px; left:40px; top:44%; }
     .constellation{ width:240px; right:40px; }
@@ -580,9 +577,7 @@ button:hover{
     button{ margin-top:100px; }
 }
 
-/* ============================================================
-   RESPONSIVE — MOBILE  (≤ 640px)
-   ============================================================ */
+
 @media (max-width:640px){
     /* Landing */
     .logo{

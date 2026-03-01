@@ -21,20 +21,3 @@ form.addEventListener("submit", e => {
     alert("Item added successfully!");
     form.reset();
 });
-
-// const form = document.getElementById("addForm");
-
-// form.addEventListener("submit", e => {
-//     e.preventDefault();
-
-//     const data = {
-//         item_id: document.getElementById("itemId").value,
-//         event_type: document.getElementById("eventType").value,
-//         location: document.getElementById("location").value,
-//         owner: document.getElementById("owner").value
-//     };
-
-//     console.log(data);
-    
-//     // Optional: Show success message and reset form
-// });
