@@ -10,9 +10,6 @@ redis_instance = redis.Redis(host='localhost', port=6379, db=0)
 def get_data(id):
     return redis_instance.get(f'block:{id}')
 
-
-
-
 # print(get_data(5))
 
 
