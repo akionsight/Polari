@@ -566,3 +566,146 @@ button:hover{
     margin-top:0;
     white-space:nowrap;
 }
+
+/* ============================================================
+   RESPONSIVE — TABLET  (≤ 1024px)
+   ============================================================ */
+@media (max-width:1024px){
+    .logo{ width:280px; left:40px; top:44%; }
+    .constellation{ width:240px; right:40px; }
+    .constellation-add{ width:200px; right:10px; }
+    .track-page{ padding:60px 60px 10px 60px; }
+    .record{ grid-template-columns:repeat(3,1fr); gap:30px; border-radius:40px; }
+    input{ width:220px; }
+    button{ margin-top:100px; }
+}
+
+/* ============================================================
+   RESPONSIVE — MOBILE  (≤ 640px)
+   ============================================================ */
+@media (max-width:640px){
+    /* Landing */
+    .logo{
+        width:200px;
+        left:50%;
+        top:12%;
+        transform:translateX(-50%);
+    }
+
+    .constellation{ display:none; }
+    .constellation-add{ display:none; }
+
+    .arrow{
+        right:auto;
+        left:-20px;
+        top:auto;
+        bottom:-60vh;
+        width:200vw;
+        height:80vh;
+        clip-path:polygon(0% 20%, 100% 0%, 100% 100%, 0% 100%);
+    }
+
+    .arrow.move{
+        transform:translateY(100vh) translateZ(0);
+    }
+
+    input{
+        width:72vw;
+        font-size:15px;
+        top:52%;
+    }
+
+    button{
+        margin-top:130px;
+        font-size:15px;
+        padding:13px 22px;
+    }
+
+    /* FABs */
+    .add-btn{
+        width:58px;
+        height:58px;
+        bottom:24px;
+        right:20px;
+    }
+
+    .add-btn img{ width:34px; height:34px; }
+    .scanner-btn{ bottom:100px; }
+
+    /* Track page */
+    .track-page{ padding:40px 16px 10px 16px; }
+
+    .record{
+        grid-template-columns:repeat(2,1fr);
+        gap:16px;
+        border-radius:24px;
+        padding:20px 14px;
+    }
+
+    .icon{ width:36px; height:36px; }
+    .value{ font-size:14px; }
+    .label{ font-size:11px; }
+
+    /* Add page */
+    .add-container h1{ font-size:32px; margin-bottom:20px; }
+    #addForm{ width:90vw; }
+
+    .arrow-inverted{
+        left:-60vw;
+        width:160vw;
+    }
+
+    /* Scanner page */
+    .scanner-body{
+        justify-content:flex-start;
+        padding-top:8vh;
+        overflow-y:auto;
+    }
+
+    .scanner-title{ font-size:28px; }
+    .scanner-container{ gap:18px; }
+
+    .viewport{ width:82vw; height:82vw; }
+
+    .divider,
+    .manual-row{ width:82vw; }
+}
+
+/* ============================================================
+   RESPONSIVE — SMALL PHONE  (≤ 390px)
+   ============================================================ */
+@media (max-width:390px){
+    .logo{ width:160px; top:10%; }
+
+    input{ width:78vw; font-size:14px; }
+
+    button{
+        font-size:14px;
+        padding:12px 18px;
+        margin-top:120px;
+    }
+
+    .add-btn{ width:52px; height:52px; bottom:20px; right:16px; }
+    .add-btn img{ width:30px; height:30px; }
+    .scanner-btn{ bottom:86px; }
+
+    .track-page{ padding:32px 10px 10px 10px; }
+
+    .record{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
+        border-radius:18px;
+        padding:16px 10px;
+    }
+
+    .icon{ width:30px; height:30px; }
+    .value{ font-size:13px; }
+    .label{ font-size:10px; }
+
+    .add-container h1{ font-size:26px; }
+    #addForm{ width:94vw; }
+
+    .scanner-title{ font-size:24px; }
+    .viewport{ width:88vw; height:88vw; }
+    .divider, .manual-row{ width:88vw; }
+}
