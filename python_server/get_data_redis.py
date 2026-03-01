@@ -35,7 +35,7 @@ def all_events_of_itemid(itemid):
 
     return fin_dat
         
-# print(all_events_of_itemid('ECID123')) 
+# print(all_events_of_itemid('112')) 
 
 
 
