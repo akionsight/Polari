@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Polari Scanner</title>
+<link rel="stylesheet" href="../static/css/style.css">
+
+</head>
+<body class="scanner-body">
+
+<div class="arrow-inverted"></div>
+
+<div class="scanner-container">
+    <h1 class="scanner-title">Scan QR Code</h1>
+
+    <!-- VIDEO VIEWPORT -->
+    <div class="viewport">
+        <video id="video" autoplay playsinline muted></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+
+        <div class="reticle">
+            <span class="corner-tr"></span>
+            <span class="corner-bl"></span>
+            <div class="scan-line"></div>
+        </div>
+
+        <div class="success-overlay" id="successOverlay">
+            <div class="check">✓</div>
+        </div>
+    </div>
+
+        <p class="status" id="status">Initialising camera…</p>
+
+
+    <!-- MANUAL FALLBACK -->
+    <div class="divider">or enter ID manually</div>
+    <div class="manual-row">
+        <input type="text" id="manualInput" placeholder="Paste UUID…">
+        <button id="manualBtn">Track</button>
+    </div>
+
+    <!-- BACK HOME -->
+    <a href="index.html" class="home-btn">← Back</a>
+</div>
+<script src="../static/js/scan.js"></script>
+</body>
+</html>
