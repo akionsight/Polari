@@ -1,6 +1,6 @@
 const container = document.getElementById("recordsContainer");
 
-/* ================= ICON MAP ================= */
+/* ICON MAP */
 
 const iconMap = {
     item_id: "../static/images/item.svg",
@@ -12,13 +12,11 @@ const iconMap = {
 };
 
 
-/* ================= GET ITEM ID FROM URL ================= */
-
 const params = new URLSearchParams(window.location.search);
 const itemId = params.get("id");
 
 
-/* ================= FETCH DATA ================= */
+/* FETCH DATA */
 
 async function loadData(){
 
@@ -33,7 +31,6 @@ async function loadData(){
 
         const result = await response.json();
 
-        // IMPORTANT: data is inside result.data
         const records = result.data;
 
         if(!Array.isArray(records))
@@ -49,7 +46,7 @@ async function loadData(){
 }
 
 
-/* ================= RENDER ================= */
+/* RENDER */
 
 function render(records){
 
@@ -61,7 +58,6 @@ function render(records){
         return;
     }
 
-    // Optional: sort chronologically
     records.sort(
         (a,b)=> new Date(a.timestamp) - new Date(b.timestamp)
     );
@@ -85,7 +81,7 @@ function render(records){
 }
 
 
-/* ================= FIELD BUILDER ================= */
+/* FIELD BUILDER  */
 
 function field(label, value, key){
     return `
@@ -100,7 +96,7 @@ function field(label, value, key){
 }
 
 
-/* ================= UTILITIES ================= */
+/* UTILITIES  */
 
 function shorten(hash){
     if(!hash) return "";
@@ -115,7 +111,7 @@ function formatTime(ts){
 }
 
 
-/* ================= START ================= */
+/* START */
 
 if(itemId){
     loadData();

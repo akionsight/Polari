@@ -11,7 +11,6 @@ const video       = document.getElementById('video');
     let scanMethod = 'unknown';
 
 
-    // ── Choose scan method ──
     if (typeof BarcodeDetector !== 'undefined') {
         BarcodeDetector.getSupportedFormats().then(formats => {
             if (formats.includes('qr_code')) {
@@ -23,7 +22,6 @@ const video       = document.getElementById('video');
             startCamera();
         });
     } else {
-        // Load jsQR dynamically from multiple CDN fallbacks
         loadJsQR();
     }
 
@@ -37,7 +35,7 @@ const video       = document.getElementById('video');
         function tryNext() {
             if (idx >= cdns.length) {
                 statusEl.textContent = 'QR library failed to load. Use manual entry below.';
-                startCamera(); // still start camera so user sees it
+                startCamera();
                 return;
             }
             const url = cdns[idx++];
