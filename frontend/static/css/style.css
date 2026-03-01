@@ -296,6 +296,10 @@ button:hover{
     object-fit: contain;
 }
 
+.scanner-btn {
+    bottom: 130px;
+}
+
 
 /* ADD PAGE */
 
