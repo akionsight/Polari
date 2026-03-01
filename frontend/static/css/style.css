@@ -408,3 +408,258 @@ button:hover{
     position: relative;
     z-index: 2;
 }
+
+/* PAGE BASE */
+    .scanner-body {
+        background: var(--bg-dark);
+        margin: 0;
+        overflow: hidden;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: sans-serif;
+    }
+
+    /* DECORATIVE ARROW (matches add page inverted arrow style)
+    .arrow-inverted {
+        position: fixed;
+        left: -800px;
+        top: -10vh;
+        width: 1200px;
+        height: 120vh;
+        background: var(--turquoise);
+        clip-path: polygon(
+            0% 0%,
+            80% 0%,
+            100% 50%,
+            80% 100%,
+            0% 100%
+        );
+        z-index: 0;
+    } */
+
+    /* SCANNER WRAPPER */
+    .scanner-container {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+    }
+
+    .scanner-title {
+        color: #ffffff;
+        font-size: 42px;
+        font-weight: 700;
+        margin: 0;
+        letter-spacing: -0.5px;
+    }
+
+    /* VIDEO VIEWPORT */
+    .viewport {
+        position: relative;
+        width: 320px;
+        height: 320px;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 0 0 4px var(--turquoise), 0 20px 60px rgba(0,0,0,0.5);
+    }
+
+    #video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* SCANNING RETICLE */
+    .reticle {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    /* Corner brackets */
+    .reticle::before,
+    .reticle::after {
+        content: '';
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-color: var(--button-yellow);
+        border-style: solid;
+    }
+    .reticle::before {
+        top: 18px;
+        left: 18px;
+        border-width: 4px 0 0 4px;
+        border-radius: 4px 0 0 0;
+    }
+    .reticle::after {
+        bottom: 18px;
+        right: 18px;
+        border-width: 0 4px 4px 0;
+        border-radius: 0 0 4px 0;
+    }
+
+    /* Extra corner spans */
+    .corner-tr, .corner-bl {
+        position: absolute;
+        width: 50px;
+        height: 50px;
+        border-color: var(--button-yellow);
+        border-style: solid;
+    }
+    .corner-tr {
+        top: 18px;
+        right: 18px;
+        border-width: 4px 4px 0 0;
+        border-radius: 0 4px 0 0;
+    }
+    .corner-bl {
+        bottom: 18px;
+        left: 18px;
+        border-width: 0 0 4px 4px;
+        border-radius: 0 0 0 4px;
+    }
+
+    /* Scan line animation */
+    .scan-line {
+        position: absolute;
+        left: 18px;
+        right: 18px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--turquoise), transparent);
+        animation: scan 2s ease-in-out infinite;
+        border-radius: 2px;
+    }
+
+    @keyframes scan {
+        0%   { top: 20px; opacity: 0; }
+        10%  { opacity: 1; }
+        90%  { opacity: 1; }
+        100% { top: calc(100% - 22px); opacity: 0; }
+    }
+
+    /* SUCCESS OVERLAY */
+    .success-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(89, 179, 201, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 20px;
+    }
+    .success-overlay.show {
+        opacity: 1;
+    }
+    .check {
+        width: 72px;
+        height: 72px;
+        border-radius: 50%;
+        background: var(--button-yellow);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 36px;
+        box-shadow: 0 0 0 8px rgba(255,196,0,0.2);
+        animation: pop 0.35s cubic-bezier(.36,.07,.19,.97) both;
+    }
+    @keyframes pop {
+        0%   { transform: scale(0.4); }
+        70%  { transform: scale(1.15); }
+        100% { transform: scale(1); }
+    }
+
+    /* STATUS TEXT */
+    .status {
+        color: rgba(255,255,255,0.7);
+        font-size: 15px;
+        text-align: center;
+        min-height: 22px;
+        transition: color 0.2s;
+    }
+    .status.found {
+        color: var(--button-yellow);
+        font-weight: 600;
+    }
+    .status.error {
+        color: #ff6b6b;
+    }
+
+    /* MANUAL INPUT FALLBACK */
+    .divider {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        width: 320px;
+        color: rgba(255,255,255,0.3);
+        font-size: 13px;
+    }
+    .divider::before, .divider::after {
+        content: '';
+        flex: 1;
+        height: 1px;
+        background: rgba(255,255,255,0.15);
+    }
+
+    .manual-row {
+        display: flex;
+        gap: 10px;
+        width: 320px;
+    }
+    .manual-row input {
+        position: static;
+        transform: none;
+        flex: 1;
+        padding: 12px 14px;
+        font-size: 15px;
+        border-radius: 8px;
+        border: none;
+        background: rgba(255,255,255,0.1);
+        color: #fff;
+        outline: none;
+        border: 1.5px solid rgba(255,255,255,0.1);
+        transition: border-color 0.2s;
+        width: auto;
+    }
+    .manual-row input::placeholder { color: rgba(255,255,255,0.35); }
+    .manual-row input:focus { border-color: var(--turquoise); }
+
+    .manual-row button {
+        padding: 12px 18px;
+        background: var(--button-yellow);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 700;
+        margin-top: 0;
+        white-space: nowrap;
+    }
+
+    /* HOME BUTTON */
+    .home-btn {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 13px 28px;
+        background: rgba(255,255,255,0.08);
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        font-weight: 600;
+        border-radius: 12px;
+        transition: background 0.15s, color 0.15s;
+        font-size: 14px;
+        border: 1.5px solid rgba(255,255,255,0.1);
+    }
+    .home-btn:hover {
+        background: rgba(255,255,255,0.14);
+        color: #fff;
+    }
